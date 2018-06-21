@@ -5,7 +5,7 @@
 
 ## Zasady:
 
-OPIS:
+OPIS:<br>
 Gra w wojnę polega na losowym wybieraniu po jednej karcie z talii graczy.
 Następnie karty są porównywane. O sile karty decyduje figura( 2 to 2, walet to 11, król to 13, itp).
 Gracz który wygra starcie dokłada do swojej talii karty które brały udział w boju.
