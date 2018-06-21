@@ -18,7 +18,7 @@ Opis WOJNY:
   3) właściciel silniejszej odkrytej karty zgarnia wszystkie karty które brały udział w wojnie i wtasuje do swojej talii
   4) jeżeli odkryte karty są równe, następuje kolejna wojna i czynności są powtarzane do momentu wyłonienia zwycięstwa
       LUB kiedy jednemy z graczy skończą się karty - gracz bez kart przegrywa.
-  ***) JOKER: podczas wojny joker liczy się jako normalna karta o sile 23 punktów
+  *) Joker podczas wojny joker liczy się jako normalna karta o sile 23 punktów
   
   JOKERY:
     - Joker jest kartą specjalną o sile 23 punktów
