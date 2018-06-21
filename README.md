@@ -22,14 +22,15 @@ Gra się kończy w momencie kiedy jeden z graczy będzie miał pustą talię.
   
   #Jokery:
   
-      * Joker jest kartą specjalną o sile 23 punktów
-      * jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
+      - Joker jest kartą specjalną o sile 23 punktów
+      - jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
         ich wartosci. Suma 3 kart > wartosc Jokera => wygrywa i zgarnia wszystkie karty
-      * jeżeli podczas normalnej rozgrywki(nie podczas wojny) oboje gracze zagrają jokery 
+      - jeżeli podczas normalnej rozgrywki(nie podczas wojny) oboje gracze zagrają jokery 
         to liczy się to jako remis - wojna.
-      * joker podczas wojny liczy się jak normalna figura
+      - joker podczas wojny liczy się jak normalna figura
     
  #Start gry:
+ 
   - na początku gry wybierasz po ile kart na rękę (min 5, max 27)
   - do dyspozycji 52 karty standardowe(2,3,4,..., walet, dama, król i as) + 2 Jokery
   - karty zostają przydzielone losowo i żaden z graczy nie ma do nich wglądu
