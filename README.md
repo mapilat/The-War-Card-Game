@@ -20,7 +20,7 @@ Gra się kończy w momencie kiedy jeden z graczy będzie miał pustą talię.
       LUB kiedy jednemy z graczy skończą się karty - gracz bez kart przegrywa.
   *) Joker podczas wojny joker liczy się jako normalna karta o sile 23 punktów
   
-  #JOKERY
+  #Jokery:
       * Joker jest kartą specjalną o sile 23 punktów
       * jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
         ich wartosci. Suma 3 kart > wartosc Jokera => wygrywa i zgarnia wszystkie karty
