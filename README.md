@@ -21,13 +21,13 @@ Gra się kończy w momencie kiedy jeden z graczy będzie miał pustą talię.
   *) Joker podczas wojny joker liczy się jako normalna karta o sile 23 punktów
   
   #JOKERY:
-    - blabla
-    - Joker jest kartą specjalną o sile 23 punktów
-    - jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
-      ich wartosci. Suma 3 kart > wartosc Jokera => wygrywa i zgarnia wszystkie karty
-    - jeżeli podczas normalnej rozgrywki(nie podczas wojny) oboje gracze zagrają jokery 
-      to liczy się to jako remis - wojna.
-    - joker podczas wojny liczy się jak normalna figura
+    * Bullet list
+      - Joker jest kartą specjalną o sile 23 punktów
+      - jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
+        ich wartosci. Suma 3 kart > wartosc Jokera => wygrywa i zgarnia wszystkie karty
+      - jeżeli podczas normalnej rozgrywki(nie podczas wojny) oboje gracze zagrają jokery 
+        to liczy się to jako remis - wojna.
+      - joker podczas wojny liczy się jak normalna figura
     
  #Start gry:
   - na początku gry wybierasz po ile kart na rękę (min 5, max 27)
