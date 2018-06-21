@@ -153,13 +153,13 @@ public class Game {
 
     private void playerJoker(Card playerCard, Card computerCard) throws OutOfCardsException{
         List<Card> tempList = new LinkedList<>(); // storing pilled computer cards
-        int tempVal = 0;
+        int tempVal = computerCard.getRank();
 
-        if(computer.remainingCards() < 3) { // check if computer has enough cards
+        if(computer.remainingCards() < 2) { // check if computer has enough cards
             throw new OutOfCardsException("Oops! Computer is out of cards!");
         }
 
-        for (int i = 0; i < 3; i++) { // pilling up computer cards from his hand
+        for (int i = 0; i < 2; i++) { // pilling up computer cards from his hand
             Card card = computer.popCard();
             tempList.add(card);
             tempVal += card.getRank(); //
@@ -180,13 +180,13 @@ public class Game {
 
     private void computerJoker(Card playerCard, Card computerCard) throws OutOfCardsException{
         List<Card> tempList = new LinkedList<>(); // storing pilled player cards
-        int tempVal = 0;
+        int tempVal = playerCard.getRank();
 
-        if(player.remainingCards() < 3) { // check if player has enough cards
+        if(player.remainingCards() < 2) { // check if player has enough cards
             throw new OutOfCardsException("Oops! Player is out of cards!");
         }
 
-        for (int i = 0; i < 3; i++) { // pilling up player cards from his hand
+        for (int i = 0; i < 2; i++) { // pilling up player cards from his hand
             Card card = player.popCard();
             tempList.add(card);
             tempVal += card.getRank();
