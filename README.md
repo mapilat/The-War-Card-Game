@@ -22,7 +22,7 @@ Gra się kończy w momencie kiedy jeden z graczy będzie miał pustą talię.
   
   #Jokery:
   - asdasd
-      - Joker jest kartą specjalną o sile 23 punktów
+  - Joker jest kartą specjalną o sile 23 punktów
       - jeżeli jeden z graczy odkryje Jokera, drugi gracz wyciąga z reki 3 karty i zlicza 
         ich wartosci. Suma 3 kart > wartosc Jokera => wygrywa i zgarnia wszystkie karty
       - jeżeli podczas normalnej rozgrywki(nie podczas wojny) oboje gracze zagrają jokery 
