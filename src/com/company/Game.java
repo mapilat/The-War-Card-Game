@@ -10,8 +10,11 @@ import java.util.Scanner;
 public class Game {
     Scanner scanner = new Scanner(System.in);
     Deck theDeck = new Deck();
-    Hand player = new Hand();
-    Hand computer = new Hand();
+    Player player1;
+    Player player2;
+    String player1Name = "Player";
+    String player2Name = "Computer";
+    boolean isOver = false;
     private final int JOKER_VALUE = 23;
     private final int MIN_HAND_SIZE = 5;
     private final int MAX_HAND_SIZE = 27;
@@ -36,46 +39,45 @@ public class Game {
         } //end while
 
         // filling hands with theDeck cards
-        player.prepareStartingHand(theDeck.getCardList(), amount);
-        computer.prepareStartingHand(theDeck.getCardList(), amount);
+        player1 = new Player(player1Name, amount, theDeck.getCardList());
+        player2 = new Player(player2Name, amount, theDeck.getCardList());
 
         System.out.println("Game is ready. Press enter to begin...");
         scanner.nextLine(); // ENTER to start the game
 
-        while(true) { // breaks if one of the hand is empty
+        while(!isOver) { // breaks if one of the hand is empty
             turnCounter++;
-            Card playerCard = player.popCard(); // popping card from player hand
-            Card computerCard = computer.popCard(); //popping card from computer hand
+            Card player1Card = player1.getHand().popCard(); // popping card from player1 hand
+            Card player2Card = player2.getHand().popCard(); //popping card from player2 hand
             System.out.println("Turn ["+turnCounter+"]" + " -> Player: " +
-                    playerCard.toString() + ", Computer: " + computerCard.toString());
+                    player1Card.toString() + ", Computer: " + player2Card.toString());
 
             try { // handling hand out of cards exception
-                if(playerCard.getRank() == JOKER_VALUE && computerCard.getRank() == JOKER_VALUE) {
-                    fight(playerCard, computerCard);
+                if(player1Card.getRank() == JOKER_VALUE && player2Card.getRank() == JOKER_VALUE) {
+                    fight(player1Card, player2Card);
                 }
-                else if(playerCard.getRank() == JOKER_VALUE) {           // player played joker
+                else if(player1Card.getRank() == JOKER_VALUE) {           // player1 played joker
                     System.out.println("A wild Joker appeared...");
-                    playerJoker(playerCard, computerCard);
-                }else if( computerCard.getRank() == JOKER_VALUE) {  // computer played joker
+                    handleJoker(player2Card, player1Card, player2, player1);
+                }else if( player2Card.getRank() == JOKER_VALUE) {  // player2 played joker
                     System.out.println("A wild Joker appeared...");
-                    computerJoker(playerCard, computerCard);
+                    handleJoker(player1Card, player2Card, player1, player2);
                 } else { // fight for no-joker cards
-                    fight(playerCard, computerCard);
+                    fight(player1Card, player2Card);
                 }
             }catch (OutOfCardsException outOfCardsException) {
                 System.out.println(outOfCardsException.getMessage());
             }
 
-            if(player.remainingCards() == 0) {              // break if player hand is 0
-                System.out.println("Computer won the game.");
-                break;
-            } else if(computer.remainingCards() == 0) {     // break if computer hand is zero
-                System.out.println("Player won the game.");
-                break;
+            // win condition check
+            if(player1.remainingCards() == 0 || player2.remainingCards() == 0) {
+                String winner = player1.remainingCards() == 0 ? player2Name : player1Name;// break if player1 hand is 0
+                System.out.println("Game Over. " + winner + " won the game!");
+                isOver = true;
+            } else {
+                System.out.println("Player cards: " + player1.remainingCards() +
+                        " ,Computer cards: " + player2.remainingCards());  // printing remaining hand size for both hands
             }
-
-            System.out.println("Player cards: " + player.remainingCards() +
-                    " ,Computer cards: " + computer.remainingCards());  // printing remaining hand size for both hands
 
         }//end while
 
@@ -83,16 +85,16 @@ public class Game {
     } //end start()
 
 
-    private void fight(Card playerCard, Card computerCard) throws OutOfCardsException{
+    private void fight(Card player1Card, Card player2Card) throws OutOfCardsException{
         List<Card> temp = new LinkedList<>(); // helping list for storing fighting cards
-        temp.add(playerCard);   // add player card to helping list
-        temp.add(computerCard); // add computer card to helping list
+        temp.add(player1Card);   // add player1 card to helping list
+        temp.add(player2Card); // add player2 card to helping list
 
-        if(playerCard.getRank() > computerCard.getRank()) {         // player is winner
-            player.addCards(temp);
+        if(player1Card.getRank() > player2Card.getRank()) {         // player1 is winner
+            player1.addCards(temp);
             System.out.println("Player won the battle!");
-        } else if(playerCard.getRank() < computerCard.getRank()) {  // computer is winner
-            computer.addCards(temp);
+        } else if(player1Card.getRank() < player2Card.getRank()) {  // player2 is winner
+            player2.addCards(temp);
             System.out.println("Computer won the battle!");
         } else {                                                    // a tie (war)
             System.out.println("War!");
@@ -102,47 +104,47 @@ public class Game {
 
     private void war(List<Card> fightingCards) throws OutOfCardsException {
         // creating lists for storing cards that participate in war
-        List<Card> playerStack = new ArrayList<>();     // stack of cards for player
-        List<Card> computerStack = new ArrayList<>();   // stack of cards for computer
+        List<Card> player1Stack = new ArrayList<>();     // stack of cards for player1
+        List<Card> player2Stack = new ArrayList<>();   // stack of cards for player2
 
         for (int i = 0; i < 3; i++) { // looping 4 times cuz we need 4 cards each stack
 
-            if(player.remainingCards() == 0) { // throw exception if not enough cards to resolve war
+            if(player1.remainingCards() == 0) { // throw exception if not enough cards to resolve war
                 throw new OutOfCardsException("Oops! Player is out of cards!");
-            } else if(computer.remainingCards() == 0) {
+            } else if(player2.remainingCards() == 0) {
                 throw new OutOfCardsException("Oops! Computer is out of cards!");
             }
 
             System.out.println("\tPlayer card is xx\n\tComputer card is xx");
 
-            playerStack.add(player.popCard());      // popping cards from hand to player stack
-            computerStack.add(computer.popCard());  // popping cards from hand to computer stack
+            player1Stack.add(player1.popCard());      // popping cards from hand to player1 stack
+            player2Stack.add(player2.popCard());  // popping cards from hand to player2 stack
 
         }//end for
 
 
-        resolveWar(playerStack, computerStack, fightingCards); // handling fight in war
+        resolveWar(player1Stack, player2Stack, fightingCards); // handling fight in war
     }
 
-    private void resolveWar(List<Card> playerStack, List<Card> computerStack, List<Card> fightingCards)
+    private void resolveWar(List<Card> player1Stack, List<Card> player2Stack, List<Card> fightingCards)
             throws OutOfCardsException{
 
-        Card playerCard = playerStack.get(0);       // picking player card for fight
-        Card computerCard = computerStack.get(0);   // picking computer card for fight
+        Card player1Card = player1Stack.get(0);       // picking player1 card for fight
+        Card player2Card = player2Stack.get(0);   // picking player2 card for fight
         List<Card> temp = new LinkedList<>();       // stack of cards participating in war
-        temp.addAll(playerStack);                   // adding player war stack
-        temp.addAll(computerStack);                 // adding computer war stack
+        temp.addAll(player1Stack);                   // adding player1 war stack
+        temp.addAll(player2Stack);                 // adding player2 war stack
 
-        System.out.println("\tPlayer: " + playerCard.toString() +
-                ", Computer: " + computerCard.toString());
+        System.out.println("\tPlayer: " + player1Card.toString() +
+                ", Computer: " + player2Card.toString());
 
-        if(playerCard.getRank() > computerCard.getRank()) {         // player wins
-            player.addCards(temp);
-            player.addCards(fightingCards);
+        if(player1Card.getRank() > player2Card.getRank()) {         // player1 wins
+            player1.addCards(temp);
+            player1.addCards(fightingCards);
             System.out.println("\tPlayer won the war!");
-        } else if(playerCard.getRank() < computerCard.getRank()) {  // computer wins
-            computer.addCards(temp);
-            computer.addCards(fightingCards);
+        } else if(player1Card.getRank() < player2Card.getRank()) {  // player2 wins
+            player2.addCards(temp);
+            player2.addCards(fightingCards);
             System.out.println("\tComputer won the war!");
         } else {                                                    // a tie
             System.out.println("\tWar!");
@@ -151,57 +153,33 @@ public class Game {
         }
     }
 
-    private void playerJoker(Card playerCard, Card computerCard) throws OutOfCardsException{
-        List<Card> tempList = new LinkedList<>(); // storing pilled computer cards
-        int tempVal = computerCard.getRank();
+    private void handleJoker(Card nonJokerCard, Card jokerCard, Player nonJokerPlayer, Player jokerPlayer)
+      throws OutOfCardsException{
 
-        if(computer.remainingCards() < 2) { // check if computer has enough cards
-            throw new OutOfCardsException("Oops! Computer is out of cards!");
+        List<Card> tempList = new LinkedList<>(); // storing pilled nonJokerPlayer cards
+        int tempVal = nonJokerCard.getRank();
+
+        if(nonJokerPlayer.remainingCards() < 2) { // check if nonJokerPlayer has enough cards
+            throw new OutOfCardsException("Oops! " + nonJokerPlayer.getName() + " is out of cards!");
         }
 
-        for (int i = 0; i < 2; i++) { // pilling up computer cards from his hand
-            Card card = computer.popCard();
+        for (int i = 0; i < 2; i++) { // pilling up nonJokerPlayer cards from his hand
+            Card card = nonJokerPlayer.popCard();
             tempList.add(card);
             tempVal += card.getRank(); //
             System.out.println("\tComputer card is xx");
         }
-        tempList.add(computerCard); // bundling cards
-        tempList.add(playerCard);
+        tempList.add(nonJokerCard); // bundling cards
+        tempList.add(jokerCard);
 
-        if(tempVal > JOKER_VALUE) {
-            System.out.println("Computer defended itself from the Joker!");
-            computer.addCards(tempList);
+        if(tempVal > JOKER_VALUE) { // final check if nonJokerPlayer got enough points (>23)
+            System.out.println(nonJokerPlayer.getName() + " defended itself from the Joker!");
+            nonJokerPlayer.addCards(tempList);
         } else {
-            System.out.println("Computer lost against the Joker!");
-            player.addCards(tempList);
+            System.out.println(nonJokerPlayer.getName() + " lost against the Joker!");
+            jokerPlayer.addCards(tempList);
         }
 
-    }
-
-    private void computerJoker(Card playerCard, Card computerCard) throws OutOfCardsException{
-        List<Card> tempList = new LinkedList<>(); // storing pilled player cards
-        int tempVal = playerCard.getRank();
-
-        if(player.remainingCards() < 2) { // check if player has enough cards
-            throw new OutOfCardsException("Oops! Player is out of cards!");
-        }
-
-        for (int i = 0; i < 2; i++) { // pilling up player cards from his hand
-            Card card = player.popCard();
-            tempList.add(card);
-            tempVal += card.getRank();
-            System.out.println("\tPlayer card is xx");
-        }
-        tempList.add(computerCard); // bundling cards
-        tempList.add(playerCard);
-
-        if(tempVal > JOKER_VALUE) {
-            System.out.println("Player defended itself from the Joker!");
-            player.addCards(tempList);
-        } else {
-            System.out.println("Player lost against the Joker!");
-            computer.addCards(tempList);
-        }
     }
 
 
