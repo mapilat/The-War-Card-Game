@@ -15,6 +15,7 @@ public class Game {
     String player1Name = "Player";
     String player2Name = "Computer";
     boolean isOver = false;
+    boolean autoPlay = false;
     private final int JOKER_VALUE = 23;
     private final int MIN_HAND_SIZE = 5;
     private final int MAX_HAND_SIZE = 27;
@@ -46,6 +47,23 @@ public class Game {
         scanner.nextLine(); // ENTER to start the game
 
         while(!isOver) { // breaks if one of the hand is empty
+
+            boolean autoPlayInput = true;
+            while(autoPlayInput){           // interface for playing card by card or printing all turns automatically
+                autoPlayInput = false;
+                if(!autoPlay) {
+                    System.out.println("Press ENTER to play a card. Type \"auto\" to auto complete the game");
+                    String choice = scanner.nextLine();
+                    if(choice.toLowerCase().equals("auto")){
+                        autoPlay = true;
+                    } else if(!choice.equals("")) {
+                        System.out.println("Wrong input.");
+                        autoPlayInput = true;
+                    }
+                } // end if
+            } // end while
+
+
             turnCounter++;
             Card player1Card = player1.getHand().popCard(); // popping card from player1 hand
             Card player2Card = player2.getHand().popCard(); //popping card from player2 hand
@@ -163,13 +181,17 @@ public class Game {
             throw new OutOfCardsException("Oops! " + nonJokerPlayer.getName() + " is out of cards!");
         }
 
+        System.out.println("\t" + nonJokerPlayer.getName() +" card: " +
+                nonJokerCard.toString() + " has value of " + nonJokerCard.getRank());   // printing first card
+
         for (int i = 0; i < 2; i++) { // pilling up nonJokerPlayer cards from his hand
             Card card = nonJokerPlayer.popCard();
             tempList.add(card);
             tempVal += card.getRank(); //
-            System.out.println("\t" + nonJokerPlayer.getName() +" card: " + card.toString());
+            System.out.println("\t" + nonJokerPlayer.getName() +" card: " +
+                    card.toString() + " has value of " + card.getRank());
         }
-        System.out.println("Total value: " + tempVal + ", joker value is 23");
+        System.out.println("Total value: " + tempVal + ", joker value is " + JOKER_VALUE);
 
         tempList.add(nonJokerCard); // bundling cards
         tempList.add(jokerCard);
