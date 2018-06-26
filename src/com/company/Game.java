@@ -127,10 +127,8 @@ public class Game {
 
         for (int i = 0; i < 3; i++) { // looping 4 times cuz we need 4 cards each stack
 
-            if(player1.remainingCards() == 0) { // throw exception if not enough cards to resolve war
-                throw new OutOfCardsException("Oops! Player is out of cards!");
-            } else if(player2.remainingCards() == 0) {
-                throw new OutOfCardsException("Oops! Computer is out of cards!");
+            if(player1.remainingCards() == 0 || player2.remainingCards() == 0) { // throw exception if not enough cards to resolve war
+                throw new OutOfCardsException("Oops! Not enough cards!");
             }
 
             System.out.println("\tPlayer card is xx\n\tComputer card is xx");
