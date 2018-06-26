@@ -167,8 +167,10 @@ public class Game {
             Card card = nonJokerPlayer.popCard();
             tempList.add(card);
             tempVal += card.getRank(); //
-            System.out.println("\tComputer card is xx");
+            System.out.println("\t" + nonJokerPlayer.getName() +" card: " + card.toString());
         }
+        System.out.println("Total value: " + tempVal + ", joker value is 23");
+
         tempList.add(nonJokerCard); // bundling cards
         tempList.add(jokerCard);
 
